@@ -1,0 +1,19 @@
+#page-container {
+	margin-top: 60px;
+}
+
+
+#panel-input-preview, #panel-path-preview, #panel-rml-preview {
+	border: 1px solid #dedede;
+	border-top: none;
+	min-width: 500px;
+	min-height: 500px;
+	margin-top: 0px;
+}
+
+
+#panel-rml-preview pre{
+	height: 500px;
+	overflow-y: scroll;
+	
+}

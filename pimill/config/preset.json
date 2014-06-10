@@ -1,0 +1,24 @@
+[
+	{
+		"label" : "mill traces (1/64)",
+		"diameter_plane" : "0.4",
+		"number_plane" : "4",
+		"z_plane" : "-0.1",
+		"speed" : "4",
+		"zjog" : "1.0",
+		"path_type" : "3D plane"
+	},
+	{
+		"label" : "cut out board (1/32)",
+		"diameter_rough" : "0.4",
+		"number_rough" : "1",
+		"itop_rough" : "0.5",
+		"ibot_rough" : "0.5",
+		"ztop_rough" : "-0.6",
+		"zbot_rough" : "-1.7",
+		"zstep_rough" : "0.6",
+		"speed" : "4",
+		"zjog" : "1.0",
+		"path_type" : "3D rough"
+	}
+]

@@ -1,0 +1,1 @@
+convert -negate $1 $1
