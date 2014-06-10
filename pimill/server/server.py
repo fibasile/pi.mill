@@ -40,7 +40,7 @@ def img(filepath):
 
 @route('/api/serials')
 def serials():
-    lst = map( lambda x: '/dev/%s' % x, filter(lambda x: x.count('tty.') >0 , os.listdir('/dev/')))
+    lst = map( lambda x: '/dev/%s' % x, filter(lambda x: x.count('tty') >0 , os.listdir('/dev/')))
     lst.append('/dev/null')
     return {'serials' : lst}
     
