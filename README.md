@@ -16,24 +16,23 @@ Install instructions
 
 On the Raspbian distribution you need the following pre-requisites
 
-sudo apt-get install build-essentials python python-dev \ 
-libgif-dev libpng12-dev libboost-dev libboost-thread-dev bc imagemagick
+  sudo apt-get install build-essentials python python-dev libgif-dev libpng12-dev libboost-dev libboost-thread-dev bc imagemagick
 
 Then you need to install the FabModules following the instructions on the [website](http://kokompe.cba.mit.edu)
 
 Once you have FabModules installed you should clone this repository, and install requirements either using sudo,
 for global install or using something like virtualenv without sudo
 
-pip install -r requirements.txt
+  pip install -r requirements.txt
 
 Now you are ready to launch pi.mill using the provided run.sh script
 
-./run.sh
+  ./run.sh
 
 Demo
 -----
 
-Check out this demo of Pi.Mill 
+Check out this demo of Pi.Mill http://www.youtube.com/watch?v=Hj5fJSAUEkM
 
 <iframe width="480" height="360" src="//www.youtube.com/embed/Hj5fJSAUEkM" frameborder="0" allowfullscreen></iframe>
 
