@@ -111,7 +111,7 @@ def make_path():
     preset = request.params.get('data[preset]')
     # todo get other params too and pass them to the scripts
     script = './scripts/make_path_etching.sh'
-    if preset == 1:
+    if int(preset) == 1:
         script = './scripts/make_path_cutting.sh'
     
     img =   '%s/%s' % (get_save_path(), 'image.png')

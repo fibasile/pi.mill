@@ -47,7 +47,7 @@ class PiMillSocket(SockJSConnection):
         
     def callback(self, kind, payload):
         if kind == 'done':
-            self.doneMilling()
+            self.doneMilling(payload)
         elif kind == 'progress':
             self.progressMilling(payload)
         elif kind == 'millingInfo':
@@ -61,10 +61,16 @@ class PiMillSocket(SockJSConnection):
         """Stop / abort milling"""
         self.sender.abort()
         
-    def doneMilling(self):
+    def doneMilling(self, payload):
         """Milling is done event"""
         print 'Milling is done'
+        total_label = "%02d:%02d s" % (int(payload.total_time)/60,int(payload.total_time) % 60)
+        rem_label = "%02d:%02d s" % (int(payload.time_remaining)/60,int(payload.time_remaining) % 60)
+        perc = (1-(payload.time_remaining / payload.total_time)) * 100
         
+        self.send({'event' : 'done', 'payload' : { 'distance' : payload.total_distance, 'perc' : perc, 'time' : total_label, 'rem' : rem_label }})
+
+
         
     def progressMilling(self,payload):
         """Record milling progress event"""

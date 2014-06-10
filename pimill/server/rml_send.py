@@ -174,7 +174,7 @@ class RMLSender:
 
     def start(self):
         ## Edit FB: we open the serial only when we start the thread
-        self.serial = serial.Serial(port, baudrate=9600, rtscts=True, timeout=0)
+        self.serial = serial.Serial(self.serialPort, baudrate=9600, rtscts=True, timeout=0)
         self.running = True
         self.time_start = time.time()
         self.thread.start()

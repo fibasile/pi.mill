@@ -3,6 +3,33 @@
 var PiMillGui = function(){
 	
 	var _this = {};
+
+        _this.preload = function(url,cb){
+	 var imgPreload = new Image();
+	    $(imgPreload).attr({
+		src: url
+	    });
+            if (imgPreload.complete || imgPreload.readyState === 4) {
+		    cb();
+		//image loaded:
+		//your code here to insert image into page
+
+	    } else {
+		//go fetch the image:
+		$(imgPreload).load(function (response, status, xhr) {
+		    if (status == 'error') {
+			cb();
+			//image could not be loaded:
+
+		    } else {
+
+			//image loaded:
+			//your code here to insert image into page
+			 cb();
+		    }
+		});
+	    }
+        };
 	
 	_this.uploadFile = function(ev){
 		ev.preventDefault();
@@ -24,9 +51,12 @@ var PiMillGui = function(){
 	
 	_this.loadPathImage = function(){
 		_this.panelPathPreview.empty();
-		$('<img>').attr('src','/uploaded.path.png').appendTo(_this.panelPathPreview);
+                var url = '/uploaded.path.png'+'?ts='+new Date().getTime();  
+            _this.preload(url, function(){
+		$('<img>').attr('src',url).appendTo(_this.panelPathPreview);
 		var $tab = $('[data-toggle="tab"][href="#panel-path"]');
     	$tab.tab("show");
+             });
 	};
 	
 	_this.loadRmlImage = function(){
@@ -43,19 +73,22 @@ var PiMillGui = function(){
 	
 	_this.loadUploadedImage = function(){
 		_this.panelImagePreview.empty();
-		$('<img>').attr('src','/uploaded.png').appendTo(_this.panelImagePreview);
-		$.get('/uploaded_info',function(data){
-			console.log(data.info);
-			if (data.info.length > 0){
-				_this.selectedFile = true;
-				_this.uploadInfo1.text(data.info[0]);
-				_this.uploadInfo2.html(data.info[1] + '<br>' + data.info[2]);
-			} else {
-				_this.selectedFile = true;
-				_this.uploadInfo2.text('No file selected');
-				_this.uploadInfo2.html('n.a.');
-			}
-		});
+                var url = '/uploaded.png?ts='+new Date().getTime();
+                _this.preload(url, function(){
+			$('<img>').attr('src',url).appendTo(_this.panelImagePreview);
+			$.get('/uploaded_info',function(data){
+				console.log(data.info);
+				if (data.info.length > 0){
+					_this.selectedFile = true;
+					_this.uploadInfo1.text(data.info[0]);
+					_this.uploadInfo2.html(data.info[1] + '<br>' + data.info[2]);
+				} else {
+					_this.selectedFile = true;
+					_this.uploadInfo2.text('No file selected');
+					_this.uploadInfo2.html('n.a.');
+				}
+			});
+                });
 		
 	};
 	
@@ -110,16 +143,8 @@ var PiMillGui = function(){
 				'y': y,
 				'serial': serial
 			},
-			success: function(data,status){
-				// console.log(data);
-				// console.log(status);
-				// if (data && data.status == 'ok') {
-				// 	alert('Head moved successfully');
-				// 	return;
-				// }
-				// alert('Failed to move head');
-			}
-		});
+			
+		}).done(function(){});
 	
 	};
 	
@@ -130,13 +155,14 @@ var PiMillGui = function(){
 		}
 		var preset = _this.selectedPreset;
 		$.post('/api/makepath', {
-			data: {
+			timeout:180,
+                        data: {
 				'preset': preset,
-			},
-			success: function(data,status){
-				_this.loadPathImage();
 			}
-		});
+			}).done( function(data,status){
+			        console.log(data); console.log(status);
+                           	_this.loadPathImage();
+			});
 	
 		
 	};
@@ -153,11 +179,11 @@ var PiMillGui = function(){
 				'x': x,
 				'y': y
 			},
-			success: function(data,status){
+			
+		}).done(function(data,status){
 				_this.loadRmlImage();
 				_this.prepareMilling();
-			}
-		});
+			});
 	
 		
 	};
@@ -168,11 +194,10 @@ var PiMillGui = function(){
 			return;
 		}
 		$.post('/api/invert', {
-			success: function(){
+			}).done(function(){
 				
 				_this.loadUploadedImage();
-			}	
-		});
+			});	
 		
 		
 		
@@ -198,18 +223,24 @@ var PiMillGui = function(){
 	
 	_this.loadMillingInfo = function(msg){
 		$('#millTotal').text(msg.payload.time);
+                if (msg.payload.time != msg.payload.rem) {
+		$('#millStatus').text('milling');
+                } else {
 		$('#millStatus').text('idle');
+                }
 		$('#millRem').text(msg.payload.rem);
-		$('#millProgress').css('style','width:'+msg.payload.perc+'%');
+                var valeur = msg.payload.perc;
+                 $('.progress-bar').css('width', valeur+'%').attr('aria-valuenow', valeur);-
 		$('#panel-status-body').collapse('show');
 		
 	};
 	
 	
-	_this.doneMilling = function(){
-		
-		
-		
+	_this.doneMilling = function(msg){
+	         var valeur=0;
+	   	 $('#millStatus').text('idle');
+                 $('#millRem').text($('#millTotal').text());
+	         $('.progress-bar').css('width', valeur+'%').attr('aria-valuenow', valeur);
 	};
 	
 	
@@ -247,6 +278,19 @@ var PiMillGui = function(){
 		
 		_this.invertButton = $('#invertButton');
 		_this.invertButton.click(_this.invert);
+
+                _this.beginMillingButton = $('#startMillingButton');
+                _this.beginMillingButton.click(function(e){
+                      e.preventDefault();
+                      _this.startMilling();
+                });
+
+                _this.cancelMillingButton = $('#stopMillingButton');
+                _this.cancelMillingButton.click(function(e){
+                      e.preventDefault();
+                      _this.stopMilling();
+                });
+
 	
 		_this.loadSerials();
 		_this.loadPresets();

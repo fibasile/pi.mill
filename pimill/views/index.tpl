@@ -158,19 +158,12 @@
     			<div class="tab-content">
     				<div class="tab-pane active" id="panel-input">
                         <div id="panel-input-preview">
+                             <div class="text-center">   <img src="/img/please.png"> </div>
                         </div>
                         <br/>
                             <div class="row">
-                                <div class="col-sm-4 column">
-                                    <div class="well">
-                                        <strong>File info:</strong><br/><span id="uploadInfo1">No file selected</span><br/>
-                                        <strong>Geometry:</strong><br/><span id="uploadInfo2">n.a.</span>
-                                        <hr>
-                                            <button class="btn btn-primary">Resize</button>
-                                            <button class="btn btn-secondary" id="invertButton">Invert</button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8 column">
+                               
+                                <div class="col-sm-12 column">
                                     <div class="well clearfix">
                                             <strong>Input file</strong>
                                             <form id="uploadForm" enctype="multipart/form-data">
@@ -180,11 +173,19 @@
                                     </div>
                                 
                                 </div>
-                            </div>
+                             <div class="col-sm-12 column">
+                                    <div class="well">
+                                        <strong>File info:</strong><br/><span id="uploadInfo1">No file selected</span><br/>
+                                        <strong>Geometry:</strong><br/><span id="uploadInfo2">n.a.</span>
+                                        <hr>
+                                            <button class="btn btn-primary">Resize</button>
+                                            <button class="btn btn-secondary" id="invertButton">Invert</button>
+                                            <button id="makePathButton" class="btn btn-success pull-right">Make path</button>
+                                    </div>
+                                </div></div>
 
                         <hr>
                         
-                        <button id="makePathButton" class="btn btn-success pull-right">Make path</button>
                     </div>
     				<div class="tab-pane" id="panel-path">
                         <div id="panel-path-preview">
@@ -216,8 +217,8 @@
                         <!-- <button class="btn btn-secondary pull-left">Back</button>    -->
                         <div class="pull-right">
                                           
-                        <button class="btn btn-primary">Begin milling</button>
-                        <button class="btn btn-danger hidden">Cancel</button>
+                        <button class="btn btn-primary" id="startMillingButton">Begin milling</button>
+                        <button class="btn btn-danger" id="stopMillingButton">Cancel</button>
                         </div>
     				</div>
     			</div>

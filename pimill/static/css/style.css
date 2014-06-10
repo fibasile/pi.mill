@@ -11,6 +11,9 @@
 	margin-top: 0px;
 }
 
+#panel-input-preview img, #panel-path-preview img {
+        width: 400px;
+} 
 
 #panel-rml-preview pre{
 	height: 500px;

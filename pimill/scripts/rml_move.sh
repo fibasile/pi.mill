@@ -12,6 +12,6 @@ cmd="PA;PA;!VZ10;!PZ0,100;PU %d %d;PD %d %d;!MC0;" % (x,y,x,y)
 
 print cmd
 
-#serial = serial.Serial(port, baudrate=9600, rtscts=True, timeout=0)
-#self.serial.write(cmd)
-#self.serial.close()
+serial = serial.Serial(port, baudrate=9600, rtscts=True, timeout=0)
+serial.write(cmd)
+serial.close()

@@ -22,7 +22,11 @@ var PiMillClient = function(){
 	};
 	
 	_this.handleMessage = function(msg){
-		window.app.gui.loadMillingInfo(msg);
+                if (msg.event == 'done') {
+			window.app.gui.doneMilling(msg);
+                } else {
+	        	window.app.gui.loadMillingInfo(msg);
+                }
 	};
 	
 	
